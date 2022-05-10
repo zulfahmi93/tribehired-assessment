@@ -14,8 +14,14 @@ class PostsApiClient {
   // --------------------------------- METHODS ---------------------------------
   Future<List<Post>> getAllPosts() async {
     const uri = 'https://jsonplaceholder.typicode.com/posts';
-    final response = await _client.send<void, List<Post>>(path: uri);
-    return response.data ?? [];
+    final response = await _client.send<void, List<dynamic>>(path: uri);
+    final payload = <Post>[];
+    if (response.data != null) {
+      for (final d in response.data!) {
+        payload.add(Post.fromJson(d));
+      }
+    }
+    return payload;
   }
 
   Future<Post?> getPostById({required int postId}) async {

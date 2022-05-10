@@ -14,7 +14,13 @@ class UsersApiClient {
   // --------------------------------- METHODS ---------------------------------
   Future<List<User>> getAllUsers() async {
     const uri = 'https://jsonplaceholder.typicode.com/users';
-    final response = await _client.send<void, List<User>>(path: uri);
-    return response.data ?? [];
+    final response = await _client.send<void, List<dynamic>>(path: uri);
+    final payload = <User>[];
+    if (response.data != null) {
+      for (final d in response.data!) {
+        payload.add(User.fromJson(d));
+      }
+    }
+    return payload;
   }
 }
