@@ -1,8 +1,10 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:provider/provider.dart';
 
 import '../../models/models.dart';
+import '../../routes/routes.dart';
 import '../components/components.dart';
 import 'state.dart';
 
@@ -118,6 +120,7 @@ class _Card extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
+      onTap: post != null ? () => _onTapped(context) : null,
       child: Padding(
         padding: const EdgeInsets.all(32.0),
         child: Row(
@@ -141,6 +144,12 @@ class _Card extends StatelessWidget {
       ),
     );
   }
+
+  Future<void> _onTapped(BuildContext context) async {
+    await context.router.push(
+      PostDetailsRoute(post: post!),
+    );
+  }
 }
 
 class _CardImage extends StatelessWidget {
@@ -157,10 +166,13 @@ class _CardImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (post != null) {
-      return Image.network(
-        'https://picsum.photos/200',
-        width: 140.0,
-        height: 140.0,
+      return Hero(
+        tag: post!.id,
+        child: Image.network(
+          'https://picsum.photos/200',
+          width: 140.0,
+          height: 140.0,
+        ),
       );
     }
 

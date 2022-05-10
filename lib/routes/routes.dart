@@ -11,6 +11,7 @@ final router = AppRouter();
   replaceInRouteName: 'Page,Route',
   routes: <AutoRoute>[
     AutoRoute(page: PostListPage, initial: true),
+    AutoRoute(page: PostDetailsPage),
   ],
 )
 class $AppRouter {}
